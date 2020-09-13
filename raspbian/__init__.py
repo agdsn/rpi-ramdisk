@@ -100,11 +100,14 @@ def build_hosts():
     ])
 def build():
     call([
-        f'rm -rf --one-file-system {stage}',
+        f'rm -rf --one-file-system {stage}/*',
 
         f'mkdir -p {stage}/etc/apt/trusted.gpg.d/',
         f'gpg --export 82B129927FA3303E > {stage}/etc/apt/trusted.gpg.d/raspberrypi-archive-keyring.gpg',
-        f'gpg --export 9165938D90FDDD2E > {stage}/etc/apt/trusted.gpg.d/raspbian-archive-keyring.gpg',
+        f'gpg --export 9165938D90FDDD2E > {stage}/etc/apt/trusted.gpg.d/raspbian-archive-key.gpg',
+        f'gpg --export 04EE7237B7D453EC > {stage}/etc/apt/trusted.gpg.d/deb1.gpg',
+        f'gpg --export 648ACFD622F3D138 > {stage}/etc/apt/trusted.gpg.d/deb2.gpg',
+        f'gpg --export DCC9EFBF77E11517 > {stage}/etc/apt/trusted.gpg.d/deb3.gpg',
         f'/usr/sbin/multistrap -d {stage} -f {multistrap_conf}',
     ], shell=True, env=env)
 
@@ -133,7 +136,7 @@ def build():
 
         # configure packages
         f'DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true \
-            LC_ALL=C LANGUAGE=C LANG=C {chroot} {stage} /usr/bin/dpkg --configure -a || true',
+            LC_ALL=C LANGUAGE=C LANG=C {chroot} {stage} /usr/bin/dpkg --configure --debug=1 -a || true',
 
         # initialize /etc/fstab
         f'echo proc /proc proc defaults 0 0 > {stage}/etc/fstab',
@@ -170,7 +173,7 @@ def build():
         f'cp -r {overlay}/* {stage}',
 
         # ldconfig
-        f'{stage}/sbin/ldconfig -r {stage}',
+        f'{chroot} {stage} /sbin/ldconfig -r /',
 
         # reset default udev persistent-net rule
         f'rm -f {stage}/etc/udev/rules.d/*_persistent-net.rules',
@@ -200,7 +203,7 @@ def build():
 @command()
 def clean():
     call([
-        f'rm -rf --one-file-system {stage} {initrd} {multistrap_conf} {hosts}'
+        f'rm -rf --one-file-system {stage}/* {initrd} {multistrap_conf} {hosts}'
     ])
 
 
