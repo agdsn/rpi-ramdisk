@@ -1,9 +1,0 @@
-[Unit]
-Description=Pirover control daemon.
-
-[Service]
-ExecStart=/opt/piroverd/bin/piroverd
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target

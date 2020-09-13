@@ -1,9 +1,0 @@
-[Unit]
-Description=PiratePython Restarter
-
-[Service]
-Type=oneshot
-ExecStart=/bin/systemctl restart piratepython
-
-[Install]
-WantedBy=multi-user.target
