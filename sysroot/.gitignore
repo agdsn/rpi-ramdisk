@@ -1,4 +1,5 @@
 /gcc*.tar.xz
+/toolchain*.tar.xz
 /toolchain
 /sysroot
 /multistrap.conf
