@@ -19,13 +19,22 @@ ignorenativearch=true
 
 # debootstrap determines which repository is used to
 # calculate the list of Priority: required packages
-debootstrap=Raspbian Foundation
+debootstrap=AGDSN-RSP Foundation
+#debootstrap=Raspbian Foundation
 
 # aptsources is a list of sections to be listed
 # in the /etc/apt/sources.list.d/multistrap.sources.list
 # of the target.
-aptsources=Raspbian Foundation
+#aptsources=Raspbian Foundation
+aptsources=AGDSN-RSP AGDSN-RSP-FND
 
+[AGDSN-RSP]
+source=http://ftp.agdsn.network/pub/mirrors/raspbian/raspbian
+suite=buster
+
+[AGDSN-RSP-FND]
+source=http://ftp.agdsn.network/nexus/repository/raspbian-foundation/
+suite=buster
 
 [Raspbian]
 source=http://mirrordirector.raspbian.org/raspbian
