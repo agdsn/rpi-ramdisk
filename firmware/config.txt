@@ -11,6 +11,9 @@ dtparam=spi=on
 # USB Device
 dtoverlay=dwc2
 
+# 1-wire
+dtoverlay=w1-gpio
+
 gpu_mem=64
 
 gpio=5=ip,pu
